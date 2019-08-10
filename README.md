@@ -1,1 +1,1 @@
-# Basic-SEO-Adit-with-Python
+# Basic-Adit
