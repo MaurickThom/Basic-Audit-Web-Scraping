@@ -30,7 +30,7 @@ def comparisons(URL):
     file = open('page.txt','r')
     print(f'File on disk after download {len(file.read())}')
     file.close()
-    print(f'os.stat().st_size returns : ',os.stat('out.txt').st_size)
+    print(f'os.stat().st_size returns : ',os.stat('page.txt').st_size)
 
 if __name__ == "__main__":
     URL = 'http://python.org'
