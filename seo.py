@@ -1,9 +1,9 @@
-import requests
+from urllib import request
 
-def verifySSL()->bool:
-    pass
-
-
+def verifySSL(URL)->bool:
+    req = request.Request(URL)
+    result = request.urlopen(req)
+    return result
 
 if __name__ == "__main__":
-    pass
+    print(verifySSL('http://python.org'))
