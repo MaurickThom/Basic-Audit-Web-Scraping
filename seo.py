@@ -23,11 +23,11 @@ def verifyWWW(URL):
 def comparisons(URL):
     site = request.urlopen(URL)
     meta = site.info() # metadata HTML
-    file = open('out.txt','wb')
+    file = open('page.txt','wb')
     file.write(site.read())
     site.close()
     file.close()
-    file = open('out.txt','r')
+    file = open('page.txt','r')
     print(f'File on disk after download {len(file.read())}')
     file.close()
     print(f'os.stat().st_size returns : ',os.stat('out.txt').st_size)
