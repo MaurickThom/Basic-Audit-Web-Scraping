@@ -71,30 +71,29 @@ def keywords(URL): #palabras clave de mayor densidad
 def checkTag(URL):
     site = urlopen(URL)
     soup = BeautifulSoup(site)
-    count = 1
-    for image in soup.findAll('img'):
-        print(f'Image image #{count}:',image["src"])
-        print(f'Alt image #{count}',image.get('alt','None'))
-        count+=1
+    for index,image in enumerate(soup.findAll('img')):
+        print(f'Image image #{index+1}:',image["src"])
+        print(f'Alt image #{index+1}',image.get('alt','None'))
 
 def readH1(URL):
     site = urlopen(URL)
     soup = BeautifulSoup(site)
-    count = 1
-    for h1 in soup.findAll('h1'):
+    for index,h1 in enumerate(soup.findAll('h1')):
         string = h1.string
-        print(f'h1 #{count} string ',h1.string 
+        print(f'h1 #{index+1} string ',h1.string 
                 if string is not None else 'no content')
-        count+=1
         
 def checkLinks(URL):
     site = urlopen(URL)
     soup = BeautifulSoup(site)
     # buscando todos los enlaces que tienen un href
-    elements = soup.findAll('a')
+    elements = soup.findAll('a') # soup.select('a')
     links = [link.get('href') for link in elements
                 if link.get('href').startswith('http')]
     print(links)
+    resultCode = {link:urlopen(link).code for link in links[:4]}
+    print(resultCode)
+    
 
 if __name__ == "__main__":
     URL = 'http://python.org'
