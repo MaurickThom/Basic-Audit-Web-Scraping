@@ -1,6 +1,8 @@
 from urllib import request
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from urllib.error import HTTPError
+from urllib.error import URLError
 import os
 import re
 
@@ -102,18 +104,36 @@ def checkRobots(URL):
         return
     soup = BeautifulSoup(site)
     print(soup)
+
+def checkFavicon(URL):
+    page = urlopen(URL)
+    soup = BeautifulSoup(page)
+    icon_link = soup.find('link',rel='icon')
+    icon = urlopen(URL+icon_link['href'])
+    with open('test.ico','wb') as file:
+        try:
+            file.write(icon.read())
+        except:
+            print('icon not found')
     
 
 if __name__ == "__main__":
     URL = 'http://python.org'
-    print(verifySSL(URL))
-    print(verifyWWW(URL))
-    print(pageSize(URL))
-    comparisons(URL)
-    verifyDescription(URL)
-    verifyTitle(URL)
-    keywords(URL)
-    checkTag(URL)
-    readH1(URL)
-    checkLinks(URL)
-    checkRobots(URL)
+    try:
+        print(verifySSL(URL))
+        print(verifyWWW(URL))
+        print(pageSize(URL))
+        comparisons(URL)
+        verifyDescription(URL)
+        verifyTitle(URL)
+        keywords(URL)
+        checkTag(URL)
+        readH1(URL)
+        checkLinks(URL)
+        checkRobots(URL)
+        checkFavicon(URL)
+    except HTTPError as e:
+        print('Err : status code', e.code)
+    
+    except URLError:
+        print("Server down or incorrect domain")
