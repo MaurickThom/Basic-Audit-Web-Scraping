@@ -77,8 +77,14 @@ def checkTag(URL):
         print(f'Alt image #{count}',image.get('alt','None'))
         count+=1
 
-def verifyH1(URL):
-    pass
+def readH1(URL):
+    site = urlopen(URL)
+    soup = BeautifulSoup(site)
+    count = 1
+    for h1 in soup.findAll('h1'):
+        string = h1.string
+        print(f'h1 #{count} string ',h1.string if string is not None else 'no content')
+        count+=1
 
 if __name__ == "__main__":
     URL = 'http://python.org'
@@ -90,3 +96,4 @@ if __name__ == "__main__":
     verifyTitle(URL)
     keywords(URL)
     checkTag(URL)
+    readH1(URL)
