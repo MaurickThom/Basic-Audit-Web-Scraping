@@ -83,7 +83,8 @@ def readH1(URL):
     count = 1
     for h1 in soup.findAll('h1'):
         string = h1.string
-        print(f'h1 #{count} string ',h1.string if string is not None else 'no content')
+        print(f'h1 #{count} string ',h1.string 
+                if string is not None else 'no content')
         count+=1
         
 def checkLinks(URL):
@@ -91,7 +92,8 @@ def checkLinks(URL):
     soup = BeautifulSoup(site)
     # buscando todos los enlaces que tienen un href
     elements = soup.findAll('a')
-    links = [link.get('href') for link in elements if link.get('href').startswith('http')]
+    links = [link.get('href') for link in elements
+                if link.get('href').startswith('http')]
     print(links)
 
 if __name__ == "__main__":
