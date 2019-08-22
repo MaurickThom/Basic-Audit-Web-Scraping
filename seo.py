@@ -1,6 +1,7 @@
 from urllib import request
-import os
 from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import os
 
 def verifySSL(URL):
     req = request.Request(URL)
@@ -36,11 +37,16 @@ def verifyDescription(URL):
     site = request.urlopen(URL)
     soup = BeautifulSoup(site)
     description = soup.find('meta',attrs={'name':'description'})
+    site.close()
+    print('description string : ',description.get('content'))
     sizeDescription = len(description.get('content'))
     print(f'The description size is {sizeDescription}')
     print('The description is less than 154' if sizeDescription < 154 else '')
 
 def verifyTitle(URL):
+    pass
+
+def keywords(URL):
     pass
 
 if __name__ == "__main__":
@@ -50,3 +56,5 @@ if __name__ == "__main__":
     print(pageSize(URL))
     comparisons(URL)
     verifyDescription(URL)
+    verifyTitle(URL)
+    keywords(URL)
