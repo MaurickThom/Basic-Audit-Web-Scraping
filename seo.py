@@ -69,7 +69,13 @@ def keywords(URL): #palabras clave de mayor densidad
     
 # check the alt attribute in the image tag
 def checkTag(URL):
-    pass
+    site = urlopen(URL)
+    soup = BeautifulSoup(site)
+    count = 1
+    for image in soup.findAll('img'):
+        print(f'Image image #{count}:',image["src"])
+        print(f'Alt image #{count}',image.get('alt','None'))
+        count+=1
 
 def verifyH1(URL):
     pass
@@ -83,3 +89,4 @@ if __name__ == "__main__":
     verifyDescription(URL)
     verifyTitle(URL)
     keywords(URL)
+    checkTag(URL)
