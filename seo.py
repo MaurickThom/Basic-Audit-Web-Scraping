@@ -85,6 +85,14 @@ def readH1(URL):
         string = h1.string
         print(f'h1 #{count} string ',h1.string if string is not None else 'no content')
         count+=1
+        
+def checkLinks(URL):
+    site = urlopen(URL)
+    soup = BeautifulSoup(site)
+    # buscando todos los enlaces que tienen un href
+    elements = soup.findAll('a')
+    links = [link.get('href') for link in elements if link.get('href').startswith('http')]
+    print(links)
 
 if __name__ == "__main__":
     URL = 'http://python.org'
@@ -97,3 +105,4 @@ if __name__ == "__main__":
     keywords(URL)
     checkTag(URL)
     readH1(URL)
+    checkLinks(URL)
