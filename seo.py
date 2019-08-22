@@ -36,7 +36,7 @@ def comparisons(URL):
 def verifyDescription(URL):
     site = request.urlopen(URL)
     soup = BeautifulSoup(site)
-    description = soup.find('meta',attrs={'name':'description'})
+    description = soup.find('meta',attrs={'name':'description'}) # que busque en el atributo name="description"
     site.close()
     print('description string : ',description.get('content'))
     sizeDescription = len(description.get('content'))
@@ -44,7 +44,11 @@ def verifyDescription(URL):
     print('The description is less than 154' if sizeDescription < 154 else '')
 
 def verifyTitle(URL):
-    pass
+    html = urlopen(URL)
+    soup = BeautifulSoup(html.read())
+    # print(soup) imprime todo el html
+    print(f'the size of the title content is {len(soup.html.head.title.string)}')
+    print(f'the content of the title is {soup.html.head.title.string}')
 
 def keywords(URL):
     pass
