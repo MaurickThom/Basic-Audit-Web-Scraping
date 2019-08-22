@@ -45,7 +45,7 @@ def comparisons(URL):
 def verifyDescription(URL):
     # site = request.urlopen(URL)
     site = urlopen(URL)
-    soup = BeautifulSoup(site)
+    soup = BeautifulSoup(site,'html.parser')
     description = soup.find('meta',attrs={'name':'description'}) # que busque en el atributo name="description"
     site.close()
     print('description string : ',description.get('content'))
@@ -55,14 +55,14 @@ def verifyDescription(URL):
 
 def verifyTitle(URL):
     html = urlopen(URL)
-    soup = BeautifulSoup(html.read())
+    soup = BeautifulSoup(html.read(),'html.parser')
     # print(soup) imprime todo el html
     print(f'the size of the title content is {len(soup.html.head.title.string)}')
     print(f'the content of the title is {soup.html.head.title.string}')
 
 def keywords(URL): #palabras clave de mayor densidad
     site = urlopen(URL)
-    soup = BeautifulSoup(site)
+    soup = BeautifulSoup(site,'html.parser')
     keyWords = soup.find('meta',attrs={'name':'keywords'})
     print(f'keywords {keyWords}')
     words = keyWords.get('content').split()
@@ -73,14 +73,14 @@ def keywords(URL): #palabras clave de mayor densidad
 # check the alt attribute in the image tag
 def checkTag(URL):
     site = urlopen(URL)
-    soup = BeautifulSoup(site)
+    soup = BeautifulSoup(site,'html.parser')
     for index,image in enumerate(soup.findAll('img')):
         print(f'Image image #{index+1}:',image["src"])
         print(f'Alt image #{index+1}',image.get('alt','None'))
 
 def readH1(URL):
     site = urlopen(URL)
-    soup = BeautifulSoup(site)
+    soup = BeautifulSoup(site,'html.parser')
     for index,h1 in enumerate(soup.findAll('h1')):
         string = h1.string
         print(f'h1 #{index+1} string ',h1.string 
@@ -88,7 +88,7 @@ def readH1(URL):
         
 def checkLinks(URL):
     site = urlopen(URL)
-    soup = BeautifulSoup(site)
+    soup = BeautifulSoup(site,'html.parser')
     # buscando todos los enlaces que tienen un href
     elements = soup.findAll('a') # soup.select('a')
     links = [link.get('href') for link in elements
@@ -107,7 +107,7 @@ def checkRobots(URL):
 
 def checkFavicon(URL):
     page = urlopen(URL)
-    soup = BeautifulSoup(page)
+    soup = BeautifulSoup(page,'html.parser')
     icon_link = soup.find('link',rel='icon')
     icon = urlopen(URL+icon_link['href'])
     with open('test.ico','wb') as file:
@@ -115,7 +115,20 @@ def checkFavicon(URL):
             file.write(icon.read())
         except:
             print('icon not found')
-    
+            
+def googleAnalytics(URL):
+    site = urlopen(URL)
+    soup = BeautifulSoup(site,'html.parser')
+    if(soup.findAll(text=re.compile('.google-analytics'))):
+        print('google-analytics')
+        return
+    print('not found google-analytics')
+
+def language(URL):
+    site = urlopen(URL)
+    soup = BeautifulSoup(site,'html.parser')
+    lang = soup.find('html')['lang']
+    print(f'Language {lang}')
 
 if __name__ == "__main__":
     URL = 'http://python.org'
@@ -132,6 +145,8 @@ if __name__ == "__main__":
         checkLinks(URL)
         checkRobots(URL)
         checkFavicon(URL)
+        googleAnalytics(URL)
+        language(URL)
     except HTTPError as e:
         print('Err : status code', e.code)
     
