@@ -10,6 +10,7 @@ def verifySSL(URL):
     result = urlopen(URL)
     return result.geturl()
 
+
 def pageSize(URL):
     # site = request.urlopen(URL)
     site = urlopen(URL)
@@ -94,6 +95,14 @@ def checkLinks(URL):
     resultCode = {link:urlopen(link).code for link in links[:4]}
     print(resultCode)
     
+def checkRobots(URL):
+    site = urlopen(f'{URL}/robots.txt')
+    if site.code != 200 :
+        print('robots.txt file not found')
+        return
+    soup = BeautifulSoup(site)
+    print(soup)
+    
 
 if __name__ == "__main__":
     URL = 'http://python.org'
@@ -107,3 +116,4 @@ if __name__ == "__main__":
     checkTag(URL)
     readH1(URL)
     checkLinks(URL)
+    checkRobots(URL)
